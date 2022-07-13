@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   //SUBMIT EVENT LISTENER ON FORM
-  document.getElementsByClassName('input-text').addEventListener('submit', handleSubmit)
+  document.querySelector('form').addEventListener('submit', handleSubmit)
     
   //DELETE
   // "id": 1,
@@ -27,16 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function handleSubmit(e) {
     e.preventDefault()
     let toyObj = {
-      name: e.target.value
-      image: e.target.image.value
-      likes. e.target.value
+      name: e.target.value,
+      image: e.target.image.value,
+      likes: e.target.value
     }
     renderOneToy(toyObj)
     toyInput(toyObj)
   }
 
-  
-  
   //Fetch request to get all toys
   function getToys() {
   fetch('http://localhost:3000/toys')
@@ -123,10 +121,3 @@ function toyInput(toyObj){
   .then(res => res.json())
   .then(data => console.log(toy))
 }
-
-
-
-
-
- //addevent listner to creat toy button
-  //get the inner values and make post object
