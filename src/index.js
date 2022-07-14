@@ -16,25 +16,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //SUBMIT EVENT LISTENER ON FORM
   document.querySelector('form').addEventListener('submit', handleSubmit)
-    
-  //DELETE
-  // "id": 1,
-  //     "name": "Woody",
-  //     "image": "http://www.pngmart.com/files/3/Toy-Story-Woody-PNG-Photos.png",
-  //     "likes": 31
   
   //EVENT HANDLER
   function handleSubmit(e) {
     e.preventDefault()
+    let inputs = document.getElementsByClassName('input-text')
     let toyObj = {
-      name: e.target.value,
-      image: e.target.image.value,
-      likes: e.target.value
+      name: inputs[0].value,
+      image: inputs[1].value,
+      likes: 0
     }
-    renderOneToy(toyObj)
+    
     toyInput(toyObj)
   }
-
+//GET
   //Fetch request to get all toys
   function getToys() {
   fetch('http://localhost:3000/toys')
@@ -68,9 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let pTag = document.createElement('p')
     pTag.innerText = `${toy.likes} likes`;
     
-    //SPAN
-    //let span = document.createElement('span')
-    
     // LIKE BUTTON
     let button = document.createElement('button')
     button.innerText = 'like'
@@ -81,11 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
     } )
     card.append(h2, img, pTag, button)
     
-    
   let div = document.getElementById('toy-collection')
   div.append(card)
   }
-
+//PATCH
   function toyLike(toy) {
     let fetchObj = {
     method: "PATCH",
@@ -94,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "Accept": "application/json"
   },
   body: JSON.stringify({
-  "likes": ++toy.likes
+  "likes": toy.likes++
   })
   }
 
@@ -114,10 +105,11 @@ function toyInput(toyObj){
   fetch('http://localhost:3000/toys', {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     },
-    body:JSON.stringify(fetchObj)
+    body:JSON.stringify(toyObj)
   })
   .then(res => res.json())
-  .then(data => console.log(toy))
+  .then(data => renderOneToy(data))
 }
